@@ -1,26 +1,26 @@
-// Alice.java
 package Diffie_Hellman;
+
+// Bob.java
 import java.io.*;
 import java.net.*;
 import java.util.*;
-import Diffie_Hellman.Common;
 
-public class Alice {
+public class Bob {
     public static void main(String[] args) throws Exception {
-        Socket socket = new Socket("localhost", 5000);
+        Socket socket = new Socket("localhost", 5001);
         DataInputStream in = new DataInputStream(socket.getInputStream());
         DataOutputStream out = new DataOutputStream(socket.getOutputStream());
 
         int privateKey = new Random().nextInt(10) + 1;
         int publicKey = (int) Math.pow(Common.G, privateKey) % Common.P;
 
-        System.out.println("Alice Private Key: " + privateKey);
-        System.out.println("Alice Public Key: " + publicKey);
+        System.out.println("Bob Private Key: " + privateKey);
+        System.out.println("Bob Public Key: " + publicKey);
 
         // Send public key
         out.writeInt(publicKey);
 
-        // Receive Bob's (MitM-ed) public key
+        // Receive Alice's (MitM-ed) public key
         int receivedKey = in.readInt();
         System.out.println("Received (Fake) Public Key: " + receivedKey);
 
@@ -30,3 +30,4 @@ public class Alice {
         socket.close();
     }
 }
+
