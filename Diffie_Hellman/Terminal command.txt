@@ -1,0 +1,21 @@
+# 1️⃣ Create package folder
+mkdir -p Diffie_Hellman
+
+# 2️⃣ Move all Java files into the package
+mv *.java Diffie_Hellman/
+
+# 3️⃣ (MANUAL STEP) — Add this line at the top of each .java file:
+#     package Diffie_Hellman;
+
+# 4️⃣ Compile all Java files (from project root)
+javac Diffie_Hellman/*.java
+
+# 5️⃣ Open 3 separate terminals and run each:
+# Terminal 1
+java Diffie_Hellman.Eve
+
+# Terminal 2
+java Diffie_Hellman.Alice
+
+# Terminal 3
+java Diffie_Hellman.Bob

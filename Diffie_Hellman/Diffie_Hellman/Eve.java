@@ -5,16 +5,16 @@ import java.net.*;
 
 public class Eve {
     public static void main(String[] args) throws Exception {
-        ServerSocket aliceSocket = new ServerSocket(5000);
-        ServerSocket bobSocket = new ServerSocket(5001);
+        ServerSocket aliceSocket = new ServerSocket(5000); // Open the door for Alice
+        ServerSocket bobSocket = new ServerSocket(5001); // Open the door for Bob
 
-        System.out.println("Waiting for Alice...");
-        Socket alice = aliceSocket.accept();
-        System.out.println("Alice connected.");
+        System.out.println("Waiting for Alice..."); 
+        Socket alice = aliceSocket.accept(); // Alice checkin 
+        System.out.println("Alice connected."); // Guest checkedIn
 
         System.out.println("Waiting for Bob...");
-        Socket bob = bobSocket.accept();
-        System.out.println("Bob connected.");
+        Socket bob = bobSocket.accept(); // Bob checkin
+        System.out.println("Bob connected."); // Bob checkedIn
 
         DataInputStream aliceIn = new DataInputStream(alice.getInputStream());
         DataOutputStream aliceOut = new DataOutputStream(alice.getOutputStream());

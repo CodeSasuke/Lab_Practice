@@ -3,7 +3,6 @@ package Diffie_Hellman;
 // Bob.java
 import java.io.*;
 import java.net.*;
-import java.util.*;
 
 public class Bob {
     public static void main(String[] args) throws Exception {
