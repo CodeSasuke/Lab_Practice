@@ -11,7 +11,7 @@ public class Bob {
         DataInputStream in = new DataInputStream(socket.getInputStream());
         DataOutputStream out = new DataOutputStream(socket.getOutputStream());
 
-        int privateKey = new Random().nextInt(10) + 1;
+        int privateKey = 15; // Bob's private key
         int publicKey = (int) Math.pow(Common.G, privateKey) % Common.P;
 
         System.out.println("Bob Private Key: " + privateKey);

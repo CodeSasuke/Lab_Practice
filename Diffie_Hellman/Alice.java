@@ -3,7 +3,6 @@ package Diffie_Hellman;
 import java.io.*;
 import java.net.*;
 import java.util.*;
-import Diffie_Hellman.Common;
 
 public class Alice {
     public static void main(String[] args) throws Exception {
@@ -11,7 +10,7 @@ public class Alice {
         DataInputStream in = new DataInputStream(socket.getInputStream());
         DataOutputStream out = new DataOutputStream(socket.getOutputStream());
 
-        int privateKey = new Random().nextInt(10) + 1;
+        int privateKey = 6;
         int publicKey = (int) Math.pow(Common.G, privateKey) % Common.P;
 
         System.out.println("Alice Private Key: " + privateKey);
