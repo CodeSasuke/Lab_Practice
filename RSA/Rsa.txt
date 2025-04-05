@@ -1,0 +1,8 @@
+Generate keys using p, q, n, phi, e, d
+
+Public key = (e, n), Private key = (d, n)
+
+Encrypt: cipher = message^e mod n
+
+Decrypt: message = cipher^d mod n
+
