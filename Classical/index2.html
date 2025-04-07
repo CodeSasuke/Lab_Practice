@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Caesar Cipher - Spin & Sound</title>
+  <style>
+    body {
+      font-family: monospace;
+      background-color: #111;
+      color: #0f0;
+      text-align: center;
+      padding: 40px;
+    }
+
+    input, button {
+      padding: 10px;
+      margin: 10px;
+      font-size: 18px;
+      border-radius: 5px;
+      border: none;
+    }
+
+    button {
+      background-color: #0f0;
+      color: #111;
+      cursor: pointer;
+    }
+
+    .output {
+      font-size: 22px;
+      margin-top: 30px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .letter-box {
+      display: inline-block;
+      margin: 6px;
+      padding: 12px 20px;
+      border: 2px solid #0f0;
+      border-radius: 10px;
+      background-color: #222;
+      color: #0f0;
+      font-weight: bold;
+      min-width: 60px;
+      perspective: 600px;
+    }
+
+    .spin {
+      display: inline-block;
+      animation: spinY 0.6s ease-out forwards;
+      transform-style: preserve-3d;
+    }
+
+    @keyframes spinY {
+      0% {
+        transform: rotateY(0deg);
+        opacity: 0;
+      }
+      100% {
+        transform: rotateY(360deg);
+        opacity: 1;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>🔐 Caesar Cipher — Spin + Sound</h1>
+  <input id="textInput" placeholder="Enter your text" />
+  <input id="shiftInput" type="number" placeholder="Shift (e.g. 3)" value="3" />
+  <button onclick="encrypt()">Encrypt</button>
+
+  <div class="output" id="output"></div>
+
+  <!-- Sound effect -->
+  <audio id="tickSound" src="https://cdn.pixabay.com/audio/2022/03/15/audio_02e2762b60.mp3" preload="auto"></audio>
+
+  <script>
+    const tickSound = document.getElementById('tickSound');
+
+    function caesarEncrypt(text, shift) {
+      const result = [];
+      for (let i = 0; i < text.length; i++) {
+        const ch = text[i];
+        if (/[a-zA-Z]/.test(ch)) {
+          const base = ch === ch.toUpperCase() ? 65 : 97;
+          const oldIndex = ch.charCodeAt(0) - base;
+          const newIndex = (oldIndex + shift + 26) % 26;
+          const encrypted = String.fromCharCode(newIndex + base);
+
+          result.push({ original: ch, encrypted });
+        } else {
+          result.push({ original: ch, encrypted: ch });
+        }
+      }
+      return result;
+    }
+
+    function playTickSound(delay) {
+      setTimeout(() => {
+        tickSound.currentTime = 0;
+        tickSound.play();
+      }, delay);
+    }
+
+    function encrypt() {
+      const text = document.getElementById('textInput').value;
+      const shift = parseInt(document.getElementById('shiftInput').value);
+      if (isNaN(shift)) {
+        alert("Please enter a valid shift number.");
+        return;
+      }
+
+      const outputDiv = document.getElementById('output');
+      outputDiv.innerHTML = '';
+
+      const encryptedList = caesarEncrypt(text, shift);
+
+      encryptedList.forEach((item, index) => {
+        const box = document.createElement('div');
+        box.className = 'letter-box';
+
+        const spinner = document.createElement('div');
+        spinner.className = 'spin';
+        spinner.textContent = `${item.original} → ${item.encrypted}`;
+        spinner.style.animationDelay = `${index * 100}ms`;
+
+        box.appendChild(spinner);
+        outputDiv.appendChild(box);
+
+        playTickSound(index * 100);
+      });
+    }
+  </script>
+</body>
+</html>

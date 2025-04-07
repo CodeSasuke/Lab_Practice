@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Caesar Cipher Visualizer</title>
+  <style>
+    body {
+      font-family: monospace;
+      text-align: center;
+      padding: 40px;
+      background-color: #111;
+      color: #0f0;
+    }
+
+    input, button {
+      padding: 10px;
+      margin: 10px;
+      font-size: 18px;
+      border-radius: 5px;
+      border: none;
+    }
+
+    button {
+      background-color: #0f0;
+      color: #111;
+      cursor: pointer;
+    }
+
+    .output {
+      font-size: 22px;
+      margin-top: 30px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .letter-box {
+      display: inline-block;
+      margin: 6px;
+      padding: 10px 16px;
+      border: 2px solid #0f0;
+      border-radius: 8px;
+      background-color: #222;
+      color: #0f0;
+      font-weight: bold;
+      min-width: 60px;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeInUp 0.4s forwards;
+    }
+
+    @keyframes fadeInUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>🔐 Caesar Cipher Visualizer</h1>
+  <input id="textInput" placeholder="Enter your text" />
+  <input id="shiftInput" type="number" placeholder="Shift (e.g. 3)" value="3" />
+  <button onclick="encrypt()">Encrypt</button>
+
+  <div class="output" id="output"></div>
+
+  <script>
+    function caesarEncrypt(text, shift) {
+      const result = [];
+      for (let i = 0; i < text.length; i++) {
+        const ch = text[i];
+        if (/[a-zA-Z]/.test(ch)) {
+          const base = ch === ch.toUpperCase() ? 65 : 97;
+          const oldIndex = ch.charCodeAt(0) - base;
+          const newIndex = (oldIndex + shift + 26) % 26;
+          const encrypted = String.fromCharCode(newIndex + base);
+
+          result.push(`<div class="letter-box" style="animation-delay: ${i * 60}ms">${ch} → ${encrypted}</div>`);
+        } else {
+          result.push(`<div class="letter-box" style="animation-delay: ${i * 60}ms">${ch}</div>`);
+        }
+      }
+      return result.join('');
+    }
+
+    function encrypt() {
+      const text = document.getElementById('textInput').value;
+      const shift = parseInt(document.getElementById('shiftInput').value);
+      if (isNaN(shift)) {
+        alert("Please enter a valid shift number.");
+        return;
+      }
+      const outputHTML = caesarEncrypt(text, shift);
+      const outputDiv = document.getElementById('output');
+      outputDiv.innerHTML = ''; // Clear previous output
+      outputDiv.innerHTML = outputHTML;
+    }
+  </script>
+</body>
+</html>
